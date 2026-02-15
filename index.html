@@ -1,145 +1,137 @@
-  <!DOCTYPE html>
+      <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Classic Omnitrix Accurate</title>
-
+<meta charset="UTF-8">
+<title>Ultimate Omnitrix</title>
 <style>
+
 body{
   margin:0;
   height:100vh;
-  background:#dcdcdc;
+  background:#0f0f0f;
   display:flex;
   justify-content:center;
   align-items:center;
   font-family:Arial;
 }
 
-/* OUTER BODY (square frame) */
-.body{
-  width:340px;
-  height:340px;
-  background:#1a1a1a;
-  border-radius:20px;
+/* Main body */
+.omnitrix{
   position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  width:320px;
+  height:320px;
 }
 
-/* WHITE CLAMPS */
-.clamp{
-  position:absolute;
-  width:70px;
-  height:120px;
-  background:white;
-  border-radius:40px;
-}
-
-.top-left{ top:-40px; left:20px; transform:rotate(-20deg); }
-.top-right{ top:-40px; right:20px; transform:rotate(20deg); }
-.bottom-left{ bottom:-40px; left:20px; transform:rotate(20deg); }
-.bottom-right{ bottom:-40px; right:20px; transform:rotate(-20deg); }
-
-/* INNER RING */
+/* Outer Ring */
 .ring{
-  width:240px;
-  height:240px;
-  border-radius:50%;
-  background:#111;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  border:12px solid #444;
-}
-
-/* BLACK/WHITE SEGMENTS */
-.segment{
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:conic-gradient(
-    white 0deg 45deg,
-    black 45deg 90deg,
-    white 90deg 135deg,
-    black 135deg 180deg,
-    white 180deg 225deg,
-    black 225deg 270deg,
-    white 270deg 315deg,
-    black 315deg 360deg
-  );
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-/* GREEN CORE */
-.core{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  background:#9acd32;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-/* SYMBOL */
-.symbol{
-  width:60px;
-  height:100px;
-  background:black;
-  clip-path:polygon(50% 0%, 65% 50%, 50% 100%, 35% 50%);
-}
-
-/* GREEN SCREWS */
-.dot{
-  position:absolute;
-  width:20px;
-  height:20px;
-  background:#9acd32;
-  border-radius:50%;
-}
-
-.top{ top:30px; left:50%; transform:translateX(-50%); }
-.right{ right:30px; top:50%; transform:translateY(-50%); }
-.bottom{ bottom:30px; left:50%; transform:translateX(-50%); }
-.left{ left:30px; top:50%; transform:translateY(-50%); }
-
-.name{
-  position:absolute;
-  bottom:-40px;
   width:100%;
-  text-align:center;
-  font-weight:bold;
+  height:100%;
+  border-radius:50%;
+  background:#1a1a1a;
+  border:14px solid #000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  box-shadow:0 0 20px #00ff0044 inset;
 }
+
+/* Dial */
+.dial{
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:#000;
+  border:8px solid #00ff00;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  transition:transform 0.4s ease;
+}
+
+/* Core Symbol */
+.core{
+  width:100px;
+  height:100px;
+  background:#00ff00;
+  clip-path: polygon(50% 0%, 60% 35%, 100% 50%, 60% 65%, 50% 100%, 40% 65%, 0% 50%, 40% 35%);
+  transition:0.3s;
+}
+
+/* Screen */
+.screen{
+  position:absolute;
+  bottom:-70px;
+  width:220px;
+  height:45px;
+  background:#000;
+  color:#00ff00;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border:2px solid #00ff00;
+  font-size:15px;
+  letter-spacing:1px;
+}
+
 </style>
 </head>
-
 <body>
 
-<div class="body">
-
-  <div class="clamp top-left"></div>
-  <div class="clamp top-right"></div>
-  <div class="clamp bottom-left"></div>
-  <div class="clamp bottom-right"></div>
+<div class="omnitrix">
 
   <div class="ring">
-    <div class="segment">
-      <div class="core">
-        <div class="symbol"></div>
-      </div>
+    <div class="dial" id="dial">
+      <div class="core" id="core"></div>
     </div>
   </div>
 
-  <div class="dot top"></div>
-  <div class="dot right"></div>
-  <div class="dot bottom"></div>
-  <div class="dot left"></div>
+  <div class="screen" id="screen">
+    Alien: Heatblast
+  </div>
 
 </div>
 
+<script>
+
+let aliens = [
+"Heatblast",
+"XLR8",
+"Four Arms",
+"Diamondhead",
+"Upgrade",
+"Ghostfreak",
+"Wildmutt"
+];
+
+let current = 0;
+
+let dial = document.getElementById("dial");
+let screen = document.getElementById("screen");
+let core = document.getElementById("core");
+
+/* Rotate Dial */
+dial.onclick = function(){
+  current++;
+  if(current >= aliens.length) current = 0;
+
+  dial.style.transform = "rotate(" + (current * 45) + "deg)";
+  screen.innerText = "Alien: " + aliens[current];
+}
+
+/* Activate on Double Click */
+dial.ondblclick = function(){
+  core.style.transform = "scale(1.4)";
+  core.style.background = "#00ff00";
+  screen.innerText = aliens[current] + " ACTIVATED!";
+  
+  setTimeout(()=>{
+    core.style.transform = "scale(1)";
+    screen.innerText = "Alien: " + aliens[current];
+  },600);
+}
+
+</script>
+
 </body>
 </html>
-  
