@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classic Omnitrix Mobile</title>
+
+<style>
+body {
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.watch {
+  width: 85vw;
+  max-width: 350px;
+  aspect-ratio: 1/1;
+  background: radial-gradient(circle, #1a1a1a 60%, #000 100%);
+  border-radius: 50%;
+  border: 12px solid #333;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 25px #00ff00;
+  transition: 0.3s;
+}
+
+.dial {
+  width: 65%;
+  aspect-ratio: 1/1;
+  background: black;
+  border-radius: 50%;
+  border: 8px solid #00ff00;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vw;
+  color: white;
+  text-align: center;
+  transition: transform 0.4s ease;
+  padding: 10px;
+}
+
+button {
+  position: absolute;
+  background: #00ff00;
+  border: none;
+  font-weight: bold;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+#prev { left: 10px; }
+#next { right: 10px; }
+#activate {
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+}
+
+.flash {
+  animation: flash 0.5s ease;
+}
+
+@keyframes flash {
+  0% { box-shadow: 0 0 10px #00ff00; }
+  50% { box-shadow: 0 0 70px #00ff00; }
+  100% { box-shadow: 0 0 10px #00ff00; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="watch" id="watch">
+  <div class="dial" id="dial">Heatblast</div>
+
+  <button id="prev">◀</button>
+  <button id="next">▶</button>
+  <button id="activate">ACTIVATE</button>
+</div>
+
+<script>
+const aliens = [
+  "Heatblast",
+  "Four Arms",
+  "XLR8",
+  "Diamondhead",
+  "Ghostfreak"
+];
+
+let current = 0;
+let rotation = 0;
+
+const dial = document.getElementById("dial");
+const watch = document.getElementById("watch");
+
+function updateDial() {
+  dial.innerText = aliens[current];
+  dial.style.transform = "rotate(" + rotation + "deg)";
+}
+
+document.getElementById("next").onclick = () => {
+  current = (current + 1) % aliens.length;
+  rotation += 72;
+  updateDial();
+};
+
+document.getElementById("prev").onclick = () => {
+  current = (current - 1 + aliens.length) % aliens.length;
+  rotation -= 72;
+  updateDial();
+};
+
+document.getElementById("activate").onclick = () => {
+  watch.classList.add("flash");
+  navigator.vibrate?.(200);
+  setTimeout(() => watch.classList.remove("flash"), 500);
+  alert("Transforming into " + aliens[current] + "!");
+};
+
+// Swipe Support
+let startX = 0;
+
+watch.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+watch.addEventListener("touchend", e => {
+  let endX = e.changedTouches[0].clientX;
+  if (endX - startX > 50) {
+    current = (current - 1 + aliens.length) % aliens.length;
+    rotation -= 72;
+  } else if (startX - endX > 50) {
+    current = (current + 1) % aliens.length;
+    rotation += 72;
+  }
+  updateDial();
+});
+</script>
+
+</body>
+</html>
