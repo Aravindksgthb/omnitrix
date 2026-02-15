@@ -1,78 +1,122 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Classic Omnitrix Mobile</title>
+<title>Classic Omnitrix</title>
 
 <style>
-body {
-  background: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  font-family: Arial, sans-serif;
+body{
+  margin:0;
+  height:100vh;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial, sans-serif;
 }
 
-.watch {
-  width: 85vw;
-  max-width: 350px;
-  aspect-ratio: 1/1;
-  background: radial-gradient(circle, #1a1a1a 60%, #000 100%);
-  border-radius: 50%;
-  border: 12px solid #333;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 0 25px #00ff00;
-  transition: 0.3s;
+/* OUTER WATCH BODY */
+.watch{
+  width:320px;
+  height:320px;
+  background:radial-gradient(circle,#2b2b2b 60%,#111 100%);
+  border-radius:50%;
+  border:18px solid #444;
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  box-shadow:0 0 30px #00ff00;
+  transition:0.4s;
 }
 
-.dial {
-  width: 65%;
-  aspect-ratio: 1/1;
-  background: black;
-  border-radius: 50%;
-  border: 8px solid #00ff00;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 5vw;
-  color: white;
-  text-align: center;
-  transition: transform 0.4s ease;
-  padding: 10px;
+/* WHITE SEGMENT RING */
+.segment-ring{
+  width:250px;
+  height:250px;
+  border-radius:50%;
+  background:conic-gradient(
+    white 0deg 45deg,
+    black 45deg 90deg,
+    white 90deg 135deg,
+    black 135deg 180deg,
+    white 180deg 225deg,
+    black 225deg 270deg,
+    white 270deg 315deg,
+    black 315deg 360deg
+  );
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-button {
-  position: absolute;
-  background: #00ff00;
-  border: none;
-  font-weight: bold;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 16px;
+/* GREEN CORE */
+.core{
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  background:radial-gradient(circle,#00ff00 20%,#008000 70%);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  transition:0.4s;
+  box-shadow:0 0 20px #00ff00;
 }
 
-#prev { left: 10px; }
-#next { right: 10px; }
-#activate {
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
+/* OMNITRIX SYMBOL */
+.symbol{
+  width:90px;
+  height:90px;
+  background:black;
+  position:relative;
+  clip-path:polygon(50% 0%, 70% 50%, 50% 100%, 30% 50%);
 }
 
-.flash {
-  animation: flash 0.5s ease;
+.symbol::before{
+  content:"";
+  position:absolute;
+  width:90px;
+  height:90px;
+  background:white;
+  clip-path:polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%);
 }
 
-@keyframes flash {
-  0% { box-shadow: 0 0 10px #00ff00; }
-  50% { box-shadow: 0 0 70px #00ff00; }
-  100% { box-shadow: 0 0 10px #00ff00; }
+/* ALIEN NAME DISPLAY */
+.name{
+  position:absolute;
+  bottom:-45px;
+  width:100%;
+  text-align:center;
+  color:#00ff00;
+  font-weight:bold;
+}
+
+/* BUTTONS */
+.controls{
+  position:absolute;
+  bottom:-100px;
+  display:flex;
+  gap:15px;
+}
+
+button{
+  padding:10px 15px;
+  font-weight:bold;
+  background:#00ff00;
+  border:none;
+  border-radius:6px;
+}
+
+/* FLASH EFFECT */
+.flash{
+  animation:flash 0.5s ease;
+}
+
+@keyframes flash{
+  0%{ box-shadow:0 0 20px #00ff00; }
+  50%{ box-shadow:0 0 120px #00ff00; }
+  100%{ box-shadow:0 0 20px #00ff00; }
 }
 </style>
 </head>
@@ -80,11 +124,19 @@ button {
 <body>
 
 <div class="watch" id="watch">
-  <div class="dial" id="dial">Heatblast</div>
+  <div class="segment-ring" id="ring">
+    <div class="core">
+      <div class="symbol"></div>
+    </div>
+  </div>
 
-  <button id="prev">◀</button>
-  <button id="next">▶</button>
-  <button id="activate">ACTIVATE</button>
+  <div class="name" id="alienName">Heatblast</div>
+
+  <div class="controls">
+    <button onclick="prev()">◀</button>
+    <button onclick="activate()">ACTIVATE</button>
+    <button onclick="next()">▶</button>
+  </div>
 </div>
 
 <script>
@@ -99,51 +151,32 @@ const aliens = [
 let current = 0;
 let rotation = 0;
 
-const dial = document.getElementById("dial");
+const ring = document.getElementById("ring");
+const nameDisplay = document.getElementById("alienName");
 const watch = document.getElementById("watch");
 
-function updateDial() {
-  dial.innerText = aliens[current];
-  dial.style.transform = "rotate(" + rotation + "deg)";
+function update(){
+  nameDisplay.innerText = aliens[current];
+  ring.style.transform = "rotate(" + rotation + "deg)";
 }
 
-document.getElementById("next").onclick = () => {
+function next(){
   current = (current + 1) % aliens.length;
-  rotation += 72;
-  updateDial();
-};
+  rotation += 45;
+  update();
+}
 
-document.getElementById("prev").onclick = () => {
+function prev(){
   current = (current - 1 + aliens.length) % aliens.length;
-  rotation -= 72;
-  updateDial();
-};
+  rotation -= 45;
+  update();
+}
 
-document.getElementById("activate").onclick = () => {
+function activate(){
   watch.classList.add("flash");
   navigator.vibrate?.(200);
-  setTimeout(() => watch.classList.remove("flash"), 500);
-  alert("Transforming into " + aliens[current] + "!");
-};
-
-// Swipe Support
-let startX = 0;
-
-watch.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-});
-
-watch.addEventListener("touchend", e => {
-  let endX = e.changedTouches[0].clientX;
-  if (endX - startX > 50) {
-    current = (current - 1 + aliens.length) % aliens.length;
-    rotation -= 72;
-  } else if (startX - endX > 50) {
-    current = (current + 1) % aliens.length;
-    rotation += 72;
-  }
-  updateDial();
-});
+  setTimeout(()=>watch.classList.remove("flash"),500);
+}
 </script>
 
 </body>
