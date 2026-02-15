@@ -9,79 +9,78 @@
 body{
   margin:0;
   height:100vh;
-  background:#e6e6e6;
+  background:#f2f2f2;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-/* MAIN BODY */
+/* Main square body */
 .omnitrix{
   position:relative;
-  width:340px;
-  height:340px;
-  background:#1c1c1c;
-  border-radius:30px;
-  box-shadow:0 0 0 10px #000;
+  width:360px;
+  height:360px;
+  background:#2b2b2b;
+  border:10px solid #000;
+  border-radius:40px;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-/* Side Armor */
-.side{
+/* White side grips */
+.grip{
   position:absolute;
   width:120px;
-  height:60px;
-  background:#777;
-  border:6px solid #000;
+  height:170px;
+  background:#ffffff;
+  border:8px solid #000;
+  border-radius:60px;
 }
 
-.top-left{ top:-40px; left:-40px; transform:rotate(-25deg); }
-.top-right{ top:-40px; right:-40px; transform:rotate(25deg); }
-.bottom-left{ bottom:-40px; left:-40px; transform:rotate(25deg); }
-.bottom-right{ bottom:-40px; right:-40px; transform:rotate(-25deg); }
+.left{ left:-80px; }
+.right{ right:-80px; }
 
-/* Circular Frame */
+/* Inner circular frame */
 .frame{
-  width:260px;
-  height:260px;
+  width:270px;
+  height:270px;
   background:#000;
   border-radius:50%;
-  border:12px solid #444;
+  border:14px solid #555;
   display:flex;
   justify-content:center;
   align-items:center;
   position:relative;
 }
 
-/* Bolts */
-.bolt{
+/* 4 Green Nodes */
+.node{
   position:absolute;
-  width:22px;
-  height:22px;
-  background:#9acd32;
+  width:28px;
+  height:28px;
+  background:#a6d84f;
+  border:6px solid #000;
   border-radius:50%;
-  border:4px solid #000;
 }
 
-.b1{ top:-15px; }
-.b2{ bottom:-15px; }
-.b3{ left:-15px; }
-.b4{ right:-15px; }
+.top{ top:-20px; }
+.bottom{ bottom:-20px; }
+.leftNode{ left:-20px; }
+.rightNode{ right:-20px; }
 
-/* Inner Dial */
+/* Green Dial */
 .dial{
-  width:190px;
-  height:190px;
-  background:#a8c96c;
+  width:200px;
+  height:200px;
+  background:#a6d84f;
   border-radius:50%;
+  border:10px solid #000;
   display:flex;
   justify-content:center;
   align-items:center;
-  border:8px solid #000;
   cursor:pointer;
-  transition:transform 0.4s ease;
+  transition:transform 0.3s ease;
 }
 
 /* Hourglass Symbol */
@@ -90,9 +89,9 @@ body{
   height:120px;
   background:black;
   clip-path: polygon(
-    0% 0%, 40% 0%, 50% 35%, 60% 0%, 100% 0%, 
-    65% 50%, 
-    100% 100%, 60% 100%, 50% 65%, 40% 100%, 0% 100%, 
+    0% 0%, 40% 0%, 50% 35%, 60% 0%, 100% 0%,
+    65% 50%,
+    100% 100%, 60% 100%, 50% 65%, 40% 100%, 0% 100%,
     35% 50%
   );
 }
@@ -103,22 +102,21 @@ body{
 
 <div class="omnitrix">
 
-  <div class="side top-left"></div>
-  <div class="side top-right"></div>
-  <div class="side bottom-left"></div>
-  <div class="side bottom-right"></div>
+  <div class="grip left"></div>
+  <div class="grip right"></div>
 
   <div class="frame">
-    <div class="bolt b1"></div>
-    <div class="bolt b2"></div>
-    <div class="bolt b3"></div>
-    <div class="bolt b4"></div>
+
+    <div class="node top"></div>
+    <div class="node bottom"></div>
+    <div class="node leftNode"></div>
+    <div class="node rightNode"></div>
 
     <div class="dial" id="dial">
       <div class="symbol"></div>
     </div>
-  </div>
 
+  </div>
 </div>
 
 <script>
@@ -126,6 +124,7 @@ body{
 let rotation = 0;
 let dial = document.getElementById("dial");
 
+/* Rotate like classic selector */
 dial.onclick = function(){
   rotation += 45;
   dial.style.transform = "rotate(" + rotation + "deg)";
