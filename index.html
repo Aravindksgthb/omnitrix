@@ -2,38 +2,61 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Classic Omnitrix</title>
+<title>Classic Omnitrix Accurate</title>
 
 <style>
 body{
   margin:0;
   height:100vh;
-  background:black;
+  background:#dcdcdc;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family:Arial, sans-serif;
+  font-family:Arial;
 }
 
-/* OUTER WATCH BODY */
-.watch{
-  width:320px;
-  height:320px;
-  background:radial-gradient(circle,#2b2b2b 60%,#111 100%);
-  border-radius:50%;
-  border:18px solid #444;
+/* OUTER BODY (square frame) */
+.body{
+  width:340px;
+  height:340px;
+  background:#1a1a1a;
+  border-radius:20px;
   position:relative;
   display:flex;
   justify-content:center;
   align-items:center;
-  box-shadow:0 0 30px #00ff00;
-  transition:0.4s;
 }
 
-/* WHITE SEGMENT RING */
-.segment-ring{
-  width:250px;
-  height:250px;
+/* WHITE CLAMPS */
+.clamp{
+  position:absolute;
+  width:70px;
+  height:120px;
+  background:white;
+  border-radius:40px;
+}
+
+.top-left{ top:-40px; left:20px; transform:rotate(-20deg); }
+.top-right{ top:-40px; right:20px; transform:rotate(20deg); }
+.bottom-left{ bottom:-40px; left:20px; transform:rotate(20deg); }
+.bottom-right{ bottom:-40px; right:20px; transform:rotate(-20deg); }
+
+/* INNER RING */
+.ring{
+  width:240px;
+  height:240px;
+  border-radius:50%;
+  background:#111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border:12px solid #444;
+}
+
+/* BLACK/WHITE SEGMENTS */
+.segment{
+  width:180px;
+  height:180px;
   border-radius:50%;
   background:conic-gradient(
     white 0deg 45deg,
@@ -52,132 +75,71 @@ body{
 
 /* GREEN CORE */
 .core{
-  width:160px;
-  height:160px;
+  width:120px;
+  height:120px;
   border-radius:50%;
-  background:radial-gradient(circle,#00ff00 20%,#008000 70%);
+  background:#9acd32;
   display:flex;
   justify-content:center;
   align-items:center;
-  position:relative;
-  transition:0.4s;
-  box-shadow:0 0 20px #00ff00;
 }
 
-/* OMNITRIX SYMBOL */
+/* SYMBOL */
 .symbol{
-  width:90px;
-  height:90px;
+  width:60px;
+  height:100px;
   background:black;
-  position:relative;
-  clip-path:polygon(50% 0%, 70% 50%, 50% 100%, 30% 50%);
+  clip-path:polygon(50% 0%, 65% 50%, 50% 100%, 35% 50%);
 }
 
-.symbol::before{
-  content:"";
+/* GREEN SCREWS */
+.dot{
   position:absolute;
-  width:90px;
-  height:90px;
-  background:white;
-  clip-path:polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%);
+  width:20px;
+  height:20px;
+  background:#9acd32;
+  border-radius:50%;
 }
 
-/* ALIEN NAME DISPLAY */
+.top{ top:30px; left:50%; transform:translateX(-50%); }
+.right{ right:30px; top:50%; transform:translateY(-50%); }
+.bottom{ bottom:30px; left:50%; transform:translateX(-50%); }
+.left{ left:30px; top:50%; transform:translateY(-50%); }
+
 .name{
   position:absolute;
-  bottom:-45px;
+  bottom:-40px;
   width:100%;
   text-align:center;
-  color:#00ff00;
   font-weight:bold;
-}
-
-/* BUTTONS */
-.controls{
-  position:absolute;
-  bottom:-100px;
-  display:flex;
-  gap:15px;
-}
-
-button{
-  padding:10px 15px;
-  font-weight:bold;
-  background:#00ff00;
-  border:none;
-  border-radius:6px;
-}
-
-/* FLASH EFFECT */
-.flash{
-  animation:flash 0.5s ease;
-}
-
-@keyframes flash{
-  0%{ box-shadow:0 0 20px #00ff00; }
-  50%{ box-shadow:0 0 120px #00ff00; }
-  100%{ box-shadow:0 0 20px #00ff00; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="watch" id="watch">
-  <div class="segment-ring" id="ring">
-    <div class="core">
-      <div class="symbol"></div>
+<div class="body">
+
+  <div class="clamp top-left"></div>
+  <div class="clamp top-right"></div>
+  <div class="clamp bottom-left"></div>
+  <div class="clamp bottom-right"></div>
+
+  <div class="ring">
+    <div class="segment">
+      <div class="core">
+        <div class="symbol"></div>
+      </div>
     </div>
   </div>
 
-  <div class="name" id="alienName">Heatblast</div>
+  <div class="dot top"></div>
+  <div class="dot right"></div>
+  <div class="dot bottom"></div>
+  <div class="dot left"></div>
 
-  <div class="controls">
-    <button onclick="prev()">◀</button>
-    <button onclick="activate()">ACTIVATE</button>
-    <button onclick="next()">▶</button>
-  </div>
 </div>
-
-<script>
-const aliens = [
-  "Heatblast",
-  "Four Arms",
-  "XLR8",
-  "Diamondhead",
-  "Ghostfreak"
-];
-
-let current = 0;
-let rotation = 0;
-
-const ring = document.getElementById("ring");
-const nameDisplay = document.getElementById("alienName");
-const watch = document.getElementById("watch");
-
-function update(){
-  nameDisplay.innerText = aliens[current];
-  ring.style.transform = "rotate(" + rotation + "deg)";
-}
-
-function next(){
-  current = (current + 1) % aliens.length;
-  rotation += 45;
-  update();
-}
-
-function prev(){
-  current = (current - 1 + aliens.length) % aliens.length;
-  rotation -= 45;
-  update();
-}
-
-function activate(){
-  watch.classList.add("flash");
-  navigator.vibrate?.(200);
-  setTimeout(()=>watch.classList.remove("flash"),500);
-}
-</script>
 
 </body>
 </html>
+  
