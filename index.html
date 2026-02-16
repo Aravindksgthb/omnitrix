@@ -9,73 +9,84 @@
 body{
   margin:0;
   height:100vh;
-  background:#0d0d0d;
+  background:#0a0a0a;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-/* Watch Strap */
+/* Strap */
 .strap{
   position:absolute;
-  width:120px;
-  height:420px;
-  background:#1a1a1a;
+  width:110px;
+  height:430px;
+  background:linear-gradient(#1a1a1a,#0f0f0f);
   border-radius:60px;
   z-index:-1;
 }
 
-/* Watch Body */
+/* Main Watch Body */
 .omnitrix{
   position:relative;
-  width:260px;
-  height:260px;
-  background:#111;
+  width:270px;
+  height:270px;
+  background:radial-gradient(circle at 50% 40%, #2a2a2a, #0f0f0f);
   border-radius:50%;
-  border:12px solid #000;
+  border:14px solid #000;
+  box-shadow:
+    0 0 0 6px #1c1c1c,
+    inset 0 8px 20px rgba(0,0,0,0.8);
   display:flex;
   justify-content:center;
   align-items:center;
-  box-shadow:0 0 0 8px #222;
 }
 
-/* Outer Ring */
+/* Metallic Ring */
 .ring{
-  width:200px;
-  height:200px;
-  background:#000;
+  width:205px;
+  height:205px;
+  background:radial-gradient(circle, #000 60%, #222 100%);
   border-radius:50%;
-  border:10px solid #2f2f2f;
+  border:12px solid #3a3a3a;
+  box-shadow:inset 0 4px 15px rgba(0,0,0,0.9);
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-/* Green Dial */
+/* Inner Dial */
 .dial{
   width:150px;
   height:150px;
-  background:#8fdc3f;
+  background:radial-gradient(circle at center, #74ff00 0%, #3c9c00 60%, #1b4200 100%);
   border-radius:50%;
-  border:8px solid #000;
+  border:10px solid #000;
+  box-shadow:
+    inset 0 0 25px rgba(0,0,0,0.7),
+    0 0 25px rgba(116,255,0,0.4);
   display:flex;
   justify-content:center;
   align-items:center;
   cursor:pointer;
-  transition:transform 0.15s ease, box-shadow 0.2s ease;
+  transition:transform 0.12s ease;
 }
 
-/* Hourglass Symbol */
+/* Hourglass */
 .symbol{
-  width:80px;
-  height:80px;
+  width:85px;
+  height:85px;
   background:black;
   clip-path: polygon(
-    0% 0%, 40% 0%, 50% 40%, 60% 0%, 100% 0%,
-    65% 50%,
-    100% 100%, 60% 100%, 50% 60%, 40% 100%, 0% 100%,
-    35% 50%
+    0% 0%, 35% 0%, 50% 45%, 65% 0%, 100% 0%,
+    60% 50%,
+    100% 100%, 65% 100%, 50% 55%, 35% 100%, 0% 100%,
+    40% 50%
   );
+}
+
+/* Press animation */
+.dial:active{
+  transform:scale(0.92);
 }
 
 </style>
@@ -86,37 +97,11 @@ body{
 
 <div class="omnitrix">
   <div class="ring">
-    <div class="dial" id="dial">
+    <div class="dial">
       <div class="symbol"></div>
     </div>
   </div>
 </div>
-
-<script>
-
-let dial = document.getElementById("dial");
-
-/* Press animation */
-dial.addEventListener("mousedown", function(){
-  dial.style.transform = "scale(0.9)";
-  dial.style.boxShadow = "0 0 25px #8fdc3f";
-});
-
-dial.addEventListener("mouseup", function(){
-  dial.style.transform = "scale(1)";
-});
-
-/* Mobile touch support */
-dial.addEventListener("touchstart", function(){
-  dial.style.transform = "scale(0.9)";
-  dial.style.boxShadow = "0 0 25px #8fdc3f";
-});
-
-dial.addEventListener("touchend", function(){
-  dial.style.transform = "scale(1)";
-});
-
-</script>
 
 </body>
 </html>
